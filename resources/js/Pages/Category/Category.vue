@@ -1,4 +1,6 @@
 <template>
+
+    <!-- Produc Category -->
     <Head title="Categoria de productos" /> 
 
     <AuthenticatedLayout>
