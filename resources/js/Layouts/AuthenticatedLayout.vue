@@ -51,6 +51,12 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Categoria de productos
                                 </NavLink>
+                                <NavLink
+                                    :href="route('reservation.index')"
+                                    :active="route().current('reservation.index')"
+                                >
+                                    Reservaciones
+                                </NavLink>
                             </div>
                         </div>
 

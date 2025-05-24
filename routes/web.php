@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\CategoryProductController;
 
 Route::get('/', function () {
@@ -37,7 +38,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/category/delete', [CategoryProductController::class, 'delete'])->name('category.delete');
     Route::post('/category/update/{id}', [CategoryProductController::class, 'update'])->name('category.update');
 
+    //Reservations
+    Route::get('/reservation', [ReservationController::class, 'index'])->name('reservation.index');
 
 });
+
+//Reservations
+Route::post('/reservation/store', [ReservationController::class, 'store'])->name('reservation.store');
 
 require __DIR__.'/auth.php';
