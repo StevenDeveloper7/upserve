@@ -1,0 +1,58 @@
+# docker-compose.yml
+version: '3.8' # Usar una versión de Compose 3.x para compatibilidad moderna
+
+services:
+  # Opcional: Tu servicio de aplicación Laravel (si ya lo tienes en Docker)
+  # app:
+  #   build: . # O especifica un Dockerfile si tienes uno personalizado
+  #   ports:
+  #     - "80:80" # Mapea el puerto 80 del contenedor al puerto 80 de tu máquina
+  #   volumes:
+  #     - .:/var/www/html # Monta tu código Laravel en el contenedor
+  #   depends_on:
+  #     - mysql # Si tu app depende de MySQL
+  #     - mailpit # Opcional: Asegura que mailpit esté listo antes que la app
+  #   environment:
+  #     APP_ENV: local
+  #     APP_DEBUG: ${APP_DEBUG}
+  #     APP_KEY: ${APP_KEY}
+  #     DB_CONNECTION: mysql
+  #     DB_HOST: mysql # El nombre del servicio de la DB en Docker Compose
+  #     DB_PORT: 3306
+  #     DB_DATABASE: ${DB_DATABASE}
+  #     DB_USERNAME: ${DB_USERNAME}
+  #     DB_PASSWORD: ${DB_PASSWORD}
+  #     MAIL_MAILER: smtp
+  #     MAIL_HOST: mailpit # El nombre del servicio de Mailpit en Docker Compose
+  #     MAIL_PORT: 1025
+  #     MAIL_USERNAME: null
+  #     MAIL_PASSWORD: null
+  #     MAIL_ENCRYPTION: null
+  #     MAIL_FROM_ADDRESS: ${MAIL_FROM_ADDRESS}
+  #     MAIL_FROM_NAME: ${MAIL_FROM_NAME}
+  #     ADMIN_PQRS_EMAIL: ${ADMIN_PQRS_EMAIL}
+
+  # Opcional: Tu servicio de base de datos MySQL (si ya lo tienes en Docker)
+  # mysql:
+  #   image: mysql:8.0 # O postgres, mariadb, etc.
+  #   ports:
+  #     - "3306:3306" # Mapea el puerto 3306 del contenedor al puerto 3306 de tu máquina
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: your_root_password # CAMBIA ESTO
+  #     MYSQL_DATABASE: ${DB_DATABASE}
+  #     MYSQL_USER: ${DB_USERNAME}
+  #     MYSQL_PASSWORD: ${DB_PASSWORD}
+  #   volumes:
+  #     - db_data:/var/lib/mysql # Persistencia de datos
+
+  # Servicio Mailpit (¡Este es el que necesitas para el correo!)
+  mailpit:
+    image: axllent/mailpit:latest # La imagen oficial de Mailpit
+    restart: unless-stopped # Asegura que Mailpit se reinicie automáticamente si se detiene
+    ports:
+      - "1025:1025" # Mapea el puerto SMTP 1025 del contenedor al puerto 1025 de tu máquina host. Tu aplicación Laravel enviará correos a este puerto.
+      - "8025:8025" # Mapea el puerto HTTP 8025 del contenedor al puerto 8025 de tu máquina host. Accederás a la interfaz web de Mailpit a través de este puerto.
+
+# Opcional: Definición de volúmenes para persistencia de datos (si tienes MySQL u otros)
+# volumes:
+#   db_data:
