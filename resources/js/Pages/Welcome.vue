@@ -10,9 +10,7 @@
             class="relative flex min-h-screen flex-col items-center selection:bg-[#FF2D20] selection:text-white"
         >
             <div class="relative w-full">
-                <header
-                    class="grid items-center gap-2"
-                >
+                <header class="grid items-center gap-2">
                     <div class="grid grid-cols-6 uppercase text-xl bg-gray-100 border-b-2 border-gray-400 relative shadow-md cursor-pointer" >
                         <div class="text-center border-r-2 border-black w-[90px]">
                             <img class="w-[75px] h-[75px]" src="img/logo_upserve.png" alt="Logo UPSERVE">
@@ -22,8 +20,8 @@
                             <h1 class="">¿Quienes Somos?</h1>
                             <div id="dropdownMenu_1" class="hidden w-[235px] text-center absolute top-full left-0 border-2 border-gray-200 bg-gradient-to-r from-teal-400 to-green-500 shadow-md opacity-80 z-50">
                                 <ul class="font-bold">
-                                    <li class="p-6 border-b-2 border-black cursor-pointer hover:scale-110"><a href="#">MISIÓN</a></li>
-                                    <li class="p-6 cursor-pointer hover:scale-110"><a href="#">VISIÓN</a></li>
+                                    <li class="p-6 border-b-2 border-black cursor-pointer hover:scale-110"><a href="/mision">MISIÓN</a></li>
+                                    <li class="p-6 cursor-pointer hover:scale-110"><a href="/vision">VISIÓN</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -37,7 +35,7 @@
                                 </ul>
                             </div>
                    
-          
+                        </div>
 
                         <div class="w-[220px] border-r-2 border-black">
                             <img class="absolute w-[200px] h-[130px]" src="img/logo_rancho_hojaldras.png" alt="Logo Restaurante">
@@ -126,6 +124,16 @@
 
     </Modal>
     </div>
+    <!-- Terminos y condiciones-->
+    <!-- <footer class="bg-gray-200 text-gray-700 py-2 mt-auto">
+        <div class="container mx-auto flex justify-end items-center">
+            <p class="flex items-center space-x-4">
+                <a href="/terminos" class="underline hover:text-gray-900">Términos y Condiciones</a>
+                <span>|</span>
+                <a href="/privacidad" class="underline hover:text-gray-900">Políticas de Privacidad</a>
+            </p>
+        </div>
+    </footer> -->
 </template>
 
 <script setup>

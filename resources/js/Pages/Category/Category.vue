@@ -14,7 +14,7 @@
                     class="overflow-hidden bg-white shadow-sm sm:rounded-lg"
                 >
                     <div class="p-6 text-gray-900 flex flex-col gap-6">
-                      Modulo de productos
+                      Modulo de categoria de productos
                       <div>
                         <PrimaryButton @click="showCategoryForm()" >Agregar</PrimaryButton>
                       </div>

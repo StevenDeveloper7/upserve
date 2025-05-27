@@ -35,13 +35,12 @@ import ReservationForm from './Modules/ReservationForm.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const props = defineProps({
-    reservations: Object
+    reservations: Object,
+    products: Array
 })
 
 const isVisibleForm = ref(false)
 const reservationsList = ref(props.reservations)
-
-console.log(reservationsList)
 
 const showReservationForm = () => {
     isVisibleForm.value = !isVisibleForm.value
