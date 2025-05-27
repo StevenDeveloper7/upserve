@@ -1,6 +1,7 @@
 <?php
 
 use Inertia\Inertia;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProductController;
@@ -9,14 +10,38 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\PqrsController;
 
+
+$products = Product::select('products.id AS id', 'products.name AS description', 'products.cost AS value')->get();
+
 Route::get('/', function () {
+$products = Product::select('products.id AS id', 'products.name AS description', 'products.cost AS value')->get();
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'products' => $products,
     ]);
 });
+
+
+Route::get('/mision', function () {
+    return view('mision'); 
+})->name('mision'); 
+
+
+Route::get('/vision', function () {
+    return view('vision'); 
+})->name('vision');
+
+Route::get('/terminos', function () {
+    return view('terminos'); 
+})->name('terminos'); 
+
+
+Route::get('/privacidad', function () {
+    return view('privacidad'); 
+})->name('privacidad');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

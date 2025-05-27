@@ -19,7 +19,7 @@
 
                       <ReservationForm @updateList="updateList" v-if="isVisibleForm" @showReservationForm="showReservationForm"  :products="products" />
 
-                      <!-- <ProductList @updateList="updateList" :products="products" :products="productsList"></ProductList> -->
+                      <ReservationList v-if="reservationsList" @updateList="updateList" :reservations="reservationsList" ></ReservationList>
                     </div>
                 </div>
             </div>
@@ -29,18 +29,19 @@
 <script setup>
 import { ref } from 'vue';
 import { Head } from '@inertiajs/vue3';
-// import ProductList from './Modules/ProductList.vue';
+import ReservationList from './Modules/ReservationList.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import ReservationForm from './Modules/ReservationForm.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const props = defineProps({
-    products: Array,
     reservations: Object
 })
 
 const isVisibleForm = ref(false)
 const reservationsList = ref(props.reservations)
+
+console.log(reservationsList)
 
 const showReservationForm = () => {
     isVisibleForm.value = !isVisibleForm.value

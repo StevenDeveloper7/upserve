@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->date('date_request');
             $table->date('date_reservation');
-            $table->dateTime('hour');
+            $table->time('hour');
             $table->integer('value')->nullable();
             $table->unsignedBigInteger('customer_id');
-            $table->unsignedBigInteger('table_id');
+            $table->unsignedBigInteger('table_id')->nullable();
             $table->unsignedBigInteger('state_id');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->foreign('table_id')->references('id')->on('tables')->onDelete('cascade');

@@ -36,7 +36,8 @@
                                     <li class="p-6 cursor-pointer hover:scale-110"><a href="#">RESERVACIÓN DE SALON</a></li>
                                 </ul>
                             </div>
-                        </div>
+                   
+          
 
                         <div class="w-[220px] border-r-2 border-black">
                             <img class="absolute w-[200px] h-[130px]" src="img/logo_rancho_hojaldras.png" alt="Logo Restaurante">
@@ -80,7 +81,9 @@
                                 <i class="fa-solid fa-user text-white text-[45px]"></i>
                             </div>
 
-                            <div class="text-center p-2 flex flex-col gap-4">
+
+                            <!-- Login options -->
+                                <div class="text-center p-2 flex flex-col gap-4">
                                     <Link
                                     :href="route('login')"
                                     class="rounded-full px-6 py-2 bg-gray-100 hover:bg-[#f8dd6f]"
@@ -99,7 +102,7 @@
                         </div>
 
                         <div class="text-center mt-8 absolute bottom-[20%] right-[42%] text-xl font-bold">
-                            <button class="border-2 border-black shadow-md rounded-full px-6 py-2 bg-gradient-to-r from-teal-400 to-green-500 hover:from-pink-500 hover:to-[#f8dd6f] hover:scale-110">
+                            <button @click="showReservationForm()" class="border-2 border-black shadow-md rounded-full px-6 py-2 bg-gradient-to-r from-teal-400 to-green-500 hover:from-pink-500 hover:to-[#f8dd6f] hover:scale-110">
                             Reservar Mesa
                             </button>
                         </div>
@@ -116,12 +119,20 @@
                 </main>
             </div>
         </div>
+    <Modal :show="isVisibleModal" @close="closeModal">
+        <ReservationForm @closeModal="closeModal" :isCustomerView="true" :products="products">
+
+        </ReservationForm>
+
+    </Modal>
     </div>
 </template>
 
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue'
+import Modal from '@/Components/Modal.vue'
+import { Head, Link } from '@inertiajs/vue3'
+import ReservationForm from '@/Pages/Reservation/Modules/ReservationForm.vue'
 
 defineProps({
     canLogin: {
@@ -138,7 +149,21 @@ defineProps({
         type: String,
         required: true,
     },
+    products: {
+        type: Array,
+        required: false,
+    },
 });
+
+const isVisibleModal = ref(false)
+
+const showReservationForm = (reservation) => {
+    isVisibleModal.value = true
+}
+
+const closeModal = () => {
+    isVisibleModal.value = false
+};
 
 function handleImageError() {
     document.getElementById('screenshot-container')?.classList.add('!hidden');

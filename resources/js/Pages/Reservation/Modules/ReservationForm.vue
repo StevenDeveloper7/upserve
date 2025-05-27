@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-10">
     <form @submit.prevent="" class="mt-6 space-y-6 flex flex-col gap-8">
 
         <!-- Customer data -->
@@ -129,7 +129,7 @@
                     />
                 </div>
 
-                <button type="button" class="h-min mt-1 sm:mt-3 p-3 bg-blue-400 text-white font-semibold rounded-xl" @click="addProduct()" >Agregar producto</button>
+                <button :disabled="isButtonDisabled" type="button" class="h-min mt-1 sm:mt-3 p-3 bg-blue-400 text-white font-semibold rounded-xl" @click="addProduct()" >Agregar producto</button>
 
             </div>
 
@@ -158,14 +158,15 @@
                 </table>
             </div>
         </div>    
-        
-        <PrimaryButton @click="storeReservation()" :disabled="form.processing">{{ reservationItem ? 'Actualizar' : 'Guardar'}}</PrimaryButton>
+        <div class="flex justify-end" >
+            <PrimaryButton class="w-min" @click="storeReservation()" :disabled="form.processing">{{ reservationItem ? 'Actualizar' : 'Guardar'}}</PrimaryButton>
+        </div>
     </form>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { toast } from 'vue3-toastify';
 import { useForm } from '@inertiajs/vue3';
 import TextInput from '@/Components/TextInput.vue';
@@ -176,16 +177,23 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const props = defineProps({
     products: Array,
-    ReservationItem: Object
+    ReservationItem: Object,
+    isCustomerView: {
+        type: Boolean,
+        required: false
+    }
 })
 
 const emit = defineEmits([
     'showReservationForm',
-    'updateList'
+    'updateList',
+    'closeModal'
 ])
 
 
-
+const isButtonDisabled = computed( () => {
+    return  productId.value !== 0 && quantityProduct.value !== 0 ? false : true
+})
 const productId = ref(0)
 const quantityProduct = ref(0)
 const addedProducts = ref([])
@@ -204,6 +212,8 @@ const form = useForm({
 
 const storeReservation = () => {
     if (props.reservationItem) {
+        form.order = addedProducts.value
+        form.totalValue = totalValue.value
         form.post(route('product.update',  props.reservationItem.id), {
             preserveScroll: true,
           onSuccess: () => {
@@ -219,9 +229,14 @@ const storeReservation = () => {
         form.post(route('reservation.store'), {
             preserveScroll: true,
           onSuccess: () => {
-            // form.reset()
+            form.reset()
             // emit('updateList')
-            toast.success('Has agregado una reservación');
+            if (props.isCustomerView) {
+                emit('closeModal')
+                toast.success('Has realizado una reservación, el restaurante se comunicara contigo para confirmar');
+            }else{
+                toast.success('Has agregado una reservación');
+            }
             emit('showReservationForm')
           }
         })
