@@ -14,41 +14,18 @@
                     class="grid items-center gap-2"
                 >
                    
-                    <!-- <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end w-full">
-                        <Link
-                            v-if="$page.props.auth.user"
-                            :href="route('dashboard')"
-                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                        >
-                            Dashboard
-                        </Link>
-
-                        <template v-else>
-                            <Link
-                                :href="route('login')"
-                                class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                            >
-                                Iniciar Sesión
-                            </Link>
-
-                            <Link
-                                v-if="canRegister"
-                                :href="route('register')"
-                                class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                            >
-                                Registrarse
-                            </Link>
-                        </template>
-                    </nav> -->
-
                       <!-- NavBar -->
                     <div class="grid grid-cols-6 uppercase text-xl bg-gray-100 border-b-2 border-gray-400 relative shadow-md cursor-pointer" >
                         <!-- logo upserve -->
                     <div class="text-center border-r-2 border-black w-[90px]">
                         <img class="w-[75px] h-[75px]" src="img/logo_upserve.png" alt="Logo UPSERVE">
                     </div>
-                        <div id="dropdownBtn_1" class="border-r-2 border-black px-3 py-5 hover:bg-[#322203] hover:text-[#f8dd6f] hover:scale-110">
-                        <h1 class="">¿Quienes Somos?</h1>
+                        <div id="dropdownBtn_1" class="relative group border-r-2 border-black px-3 py-5 hover:bg-[#322203] hover:text-[#f8dd6f] hover:scale-110">
+                            <h1 class="">¿Quienes Somos?</h1>
+                            <ul class="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-in-out">
+                                <li><a href="/mision" class="block border-b-2 border-black px-10 py-5 hover:bg-[#322203] hover:text-[#f8dd6f] hover:scale-110 text-center">Misión</a></li>
+                                <li><a href="/vision" class="block border-black px-10 py-5 hover:bg-[#322203] hover:text-[#f8dd6f] hover:scale-110 text-center">Visión</a></li>
+                            </ul>
                         </div>
                         <div id="dropdownBtn_2" class="text-center border-r-2 border-black py-5 hover:bg-[#322203] hover:text-[#f8dd6f] hover:scale-110">
                         <h1>SERVICIOS</h1>
@@ -83,23 +60,6 @@
                                 <i class="fa-solid fa-user text-white text-[45px]"></i>
                             </div>
 
-                            <!-- Username input -->
-                            <!-- <div class="flex gap-3 items-center bg-white p-2 rounded-md">
-                                <i class="fa-solid fa-user text-[#322203]"></i>
-                                <input class="outline-none" type="text" placeholder="Nombre de usuario" >
-                            </div> -->
-
-                            <!-- Password input -->
-                            <!-- <div class="flex gap-3 items-center bg-white p-2 rounded-md mt-8">
-                                <i class="fa-solid fa-lock text-[#322203]"></i>
-                                <input class="outline-none" type="password" placeholder="Contraseña" >
-                            </div> -->
-
-                            <!-- Password reset link -->
-                            <!-- <div class="text-right mt-1">
-                                <a class="text-md text-white underline hover:text-[#f8dd6f]" href="/">¿Olvidaste la contraseña?</a>
-                            </div> -->
-
                             <!-- Login options -->
                                 <div class="text-center p-2 flex flex-col gap-4">
                                 <!-- <button class="rounded-full px-6 py-2 bg-gray-100 hover:bg-[#f8dd6f]">
@@ -120,18 +80,12 @@
                                     </Link>
                                 </div>
 
-                                <!-- Regster link -->
-                                <!-- <div class="text-center flex gap-3 mt-8">
-                                <h4 class="text-white">¿No tienes cuenta?</h4>
-                                <a class="text-md text-white underline hover:text-[#f8dd6f]" href="/">Registrarse</a>
-                                </div> -->
-
                             </div>
                         </div>
 
                         <!-- Reservation button -->
                         <div class="text-center mt-8 absolute bottom-[20%] right-[42%] text-xl font-bold">
-                            <button class="border-2 border-black shadow-md rounded-full px-6 py-2 bg-gradient-to-r from-teal-400 to-green-500 hover:from-pink-500 hover:to-[#f8dd6f] hover:scale-110">
+                            <button @click="showReservationForm()" class="border-2 border-black shadow-md rounded-full px-6 py-2 bg-gradient-to-r from-teal-400 to-green-500 hover:from-pink-500 hover:to-[#f8dd6f] hover:scale-110">
                             Reservar Mesa
                             </button>
                         </div>
@@ -190,11 +144,20 @@
 
             </div>
         </div>
+    <Modal :show="isVisibleModal" @close="closeModal">
+        <ReservationForm @closeModal="closeModal" :isCustomerView="true" :products="products">
+
+        </ReservationForm>
+
+    </Modal>
     </div>
 </template>
 
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { ref } from 'vue'
+import Modal from '@/Components/Modal.vue'
+import { Head, Link } from '@inertiajs/vue3'
+import ReservationForm from '@/Pages/Reservation/Modules/ReservationForm.vue'
 
 defineProps({
     canLogin: {
@@ -211,7 +174,21 @@ defineProps({
         type: String,
         required: true,
     },
+    products: {
+        type: Array,
+        required: false,
+    },
 });
+
+const isVisibleModal = ref(false)
+
+const showReservationForm = (reservation) => {
+    isVisibleModal.value = true
+}
+
+const closeModal = () => {
+    isVisibleModal.value = false
+};
 
 function handleImageError() {
     document.getElementById('screenshot-container')?.classList.add('!hidden');

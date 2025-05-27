@@ -1,6 +1,13 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import CardAdminSection from '@/Components/CardAdminSection.vue'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+
+const dashboardSections = [
+    {id: 1, iconName: 'fa-cart-shopping', messageContent: 'Productos', routingName: "product.index"},
+    {id: 2, iconName: 'fa-clipboard', messageContent: 'Reservaciones', routingName: "reservation.index"},
+    {id: 3, iconName: 'fa-bookmark', messageContent: 'Categoria de Productos', routingName: "category.index"}
+]
 </script>
 
 <template>
@@ -20,8 +27,15 @@ import { Head } from '@inertiajs/vue3';
                 <div
                     class="overflow-hidden bg-white shadow-sm sm:rounded-lg"
                 >
-                    <div class="p-6 text-gray-900">
-                        Has inicado sesion correctamente
+                    <div class="p-6 flex gap-6 justify-center">
+                        
+                        <CardAdminSection 
+                            v-for="dashboardSection in dashboardSections" :key="dashboardSection.id" 
+                            :iconName="dashboardSection.iconName" 
+                            :messageContent="dashboardSection.messageContent" 
+                            :routingName="dashboardSection.routingName" >
+                        </CardAdminSection>
+                    
                     </div>
                 </div>
             </div>

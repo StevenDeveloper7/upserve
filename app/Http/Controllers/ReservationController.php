@@ -13,9 +13,11 @@ class ReservationController extends Controller
 {
     public function index(Request $request)
     {
+        $reservations = Reservation::all();
+
         $products = Product::select('products.id AS id', 'products.name AS description', 'products.cost AS value')->get();
 
-        return Inertia::render('Reservation/AdminReservation', compact('products'));
+        return Inertia::render('Reservation/AdminReservation', compact('products', 'reservations'));
     }
 
     public function store(Request $request)
@@ -44,18 +46,15 @@ class ReservationController extends Controller
         ]);
 
         // Store reservation details  	
-
         for ($arrayPosition=0; $arrayPosition < count($order); $arrayPosition++) { 
             
             ReservationDetail::create([
                 'reservation_id'        =>          $reservation->id,
-                'product_id'            =>          $order[$arrayPosition]->id,
-                'quantity'              =>          $order[$arrayPosition]->quantity,
-                'cost'                  =>          $order[$arrayPosition]->cost
+                'product_id'            =>          $order[$arrayPosition]['id'],
+                'quantity'              =>          $order[$arrayPosition]['quantity'],
+                'cost'                  =>          $order[$arrayPosition]['cost']
             ]);
         }
 
-
-        dd($request);
     }
 }
