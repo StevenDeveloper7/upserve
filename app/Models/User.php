@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'telefono',
+        "numero_identificacion"
     ];
 
     /**
@@ -44,5 +47,17 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function pqrs()
+    {
+        // 'Pqrs::class' se refiere al modelo App\Models\Pqrs
+        return $this->hasMany(Pqrs::class);
+    }
+
+    public function respuestasPqrs()
+    {
+        // 'RespuestaPqrs::class' se refiere al modelo App\Models\RespuestaPqrs
+        return $this->hasMany(RespuestaPqrs::class);
     }
 }

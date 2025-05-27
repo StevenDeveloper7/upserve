@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\CategoryProductController;
+use App\Http\Controllers\PqrsController;
 
 
 $products = Product::select('products.id AS id', 'products.name AS description', 'products.cost AS value')->get();
@@ -70,5 +71,11 @@ Route::middleware('auth')->group(function () {
 
 //Reservations
 Route::post('/reservation/store', [ReservationController::class, 'store'])->name('reservation.store');
+
+require __DIR__.'/auth.php';
+
+// Rutas para PQRS (accesibles para todos, incluyendo anónimos)
+Route::get('/pqrs/create', [PqrsController::class, 'create'])->name('pqrs.create');
+Route::post('/pqrs', [PqrsController::class, 'store'])->name('pqrs.store');
 
 require __DIR__.'/auth.php';
